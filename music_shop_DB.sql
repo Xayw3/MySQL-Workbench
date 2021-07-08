@@ -43,6 +43,10 @@ CREATE TABLE tracks (
                 ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
+create index IFK_TrackAlbumId on tracks (AlbumId);
+create index IFK_TrackGenreId on tracks (GenreId);
+create index IFK_TrackMediaTypeId on tracks (MediaTypeId);
+
 CREATE TABLE playlists (
     PlaylistId INTEGER PRIMARY KEY auto_increment NOT NULL,
     Name NVARCHAR(120)
@@ -57,6 +61,9 @@ CREATE TABLE playlist_track (
     FOREIGN KEY (TrackId) REFERENCES tracks (TrackId)
                 ON DELETE NO ACTION ON UPDATE NO ACTION
 );
+
+create index IFK_PlaylistTrackTrackId ON playlist_track (TrackId);
+
 CREATE TABLE employees (
     EmployeeId INTEGER PRIMARY KEY auto_increment NOT NULL,
     LastName NVARCHAR(20)  NOT NULL,
@@ -77,6 +84,8 @@ CREATE TABLE employees (
                 ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
+create index IFK_EmployeeReportsTo on employees (ReportsTo);
+
 CREATE TABLE customers (
     CustomerId INTEGER PRIMARY KEY auto_increment NOT NULL,
     FirstName NVARCHAR(40)  NOT NULL,
@@ -95,6 +104,8 @@ CREATE TABLE customers (
                 ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
+create index IFK_CustomerSupportRepId on customers (SupportRepId);
+
 CREATE TABLE invoices (
     InvoiceId INTEGER PRIMARY KEY auto_increment NOT NULL,
     CustomerId INTEGER  NOT NULL,
@@ -109,6 +120,8 @@ CREATE TABLE invoices (
                 ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
+create index IFK_InvoiceCustomerId on invoices (CustomerId);
+
 CREATE TABLE invoice_items (
     InvoiceLineId INTEGER PRIMARY KEY auto_increment NOT NULL,
     InvoiceId INTEGER  NOT NULL,
@@ -120,3 +133,5 @@ CREATE TABLE invoice_items (
     FOREIGN KEY (TrackId) REFERENCES tracks (TrackId)
                 ON DELETE NO ACTION ON UPDATE NO ACTION
 );
+create index IFK_InvoiceLineInvoiceId on invoice_items (InvoiceId);
+create index IFK_InvoiceLineTrackId on invoice_items (TrackId);
